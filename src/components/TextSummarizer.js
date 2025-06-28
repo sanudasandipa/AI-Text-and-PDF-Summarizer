@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import aiService from '../services/geminiService';
 import DemoShowcase from './DemoShowcase';
 
@@ -15,14 +15,13 @@ const TextSummarizer = ({ darkMode }) => {
   const [progressStep, setProgressStep] = useState(0);
   const [loadingText, setLoadingText] = useState('');
   const [processingTime, setProcessingTime] = useState(0);
-  const [startTime, setStartTime] = useState(null);
 
-  const progressSteps = [
+  const progressSteps = useMemo(() => [
     'Analyzing text...',
     'Processing with AI...',
     'Generating results...',
     'Finalizing output...'
-  ];
+  ], []);
 
   useEffect(() => {
     let interval;
@@ -43,7 +42,7 @@ const TextSummarizer = ({ darkMode }) => {
       setLoadingText('');
     }
     return () => clearInterval(interval);
-  }, [loading]);
+  }, [loading, progressSteps]);
 
   const handleSummarize = async () => {
     if (!inputText.trim()) {
@@ -53,7 +52,6 @@ const TextSummarizer = ({ darkMode }) => {
     }
 
     const start = Date.now();
-    setStartTime(start);
     setLoading(true);
     setError('');
     setSuccessMessage('');

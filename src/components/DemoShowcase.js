@@ -27,7 +27,7 @@ const DemoShowcase = ({ onTryDemo }) => {
       setCurrentDemo((prev) => (prev + 1) % demoTexts.length);
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [demoTexts.length]);
 
   const handleTryDemo = (demo) => {
     setIsTyping(true);
